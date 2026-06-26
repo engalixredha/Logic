@@ -1,0 +1,159 @@
+/* =========================================================
+   ARCLOGIC — DESIGN TOKENS & BASE STYLES
+   Theme: dark, instrument-panel glass. Inspired by PCB traces,
+   oscilloscope glow, and IDE chrome.
+   ========================================================= */
+
+:root {
+  /* ---- Surface & void ---- */
+  --void:            #0a0e14;
+  --void-soft:       #0d1219;
+  --surface:         #11161f;
+  --surface-raised:  #161c27;
+  --surface-glass:   rgba(17, 22, 31, 0.62);
+  --surface-glass-strong: rgba(15, 19, 27, 0.82);
+  --border-glass:    rgba(148, 178, 196, 0.12);
+  --border-glass-strong: rgba(148, 178, 196, 0.22);
+
+  /* ---- Signal / accent colors ---- */
+  --accent:          #5eead4;   /* trace teal — primary action / focus */
+  --accent-dim:      #2dd4bf;
+  --accent-soft:     rgba(94, 234, 212, 0.14);
+  --accent-secondary:#818cf8;   /* alpha / indigo — selection, mode */
+  --accent-secondary-soft: rgba(129, 140, 248, 0.14);
+  --gold:            #f0b94d;   /* shift / gold legend */
+  --signal-hi:       #4ade80;
+  --signal-lo:       #3f4a5a;
+  --danger:          #f87171;
+
+  /* ---- Text ---- */
+  --text-primary:    #e6edf3;
+  --text-secondary:  #aab8c4;
+  --text-muted:      #7c8a9c;
+  --text-faint:      #4b5868;
+
+  /* ---- Typography ---- */
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  /* ---- Geometry ---- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --shadow-glow-accent: 0 0 0 1px rgba(94, 234, 212, 0.25), 0 0 24px rgba(94, 234, 212, 0.12);
+
+  /* ---- Layout dimensions ---- */
+  --topbar-h: 56px;
+  --statusbar-h: 30px;
+  --sidebar-w: 264px;
+  --sidebar-w-collapsed: 0px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 140ms;
+  --dur-mid: 240ms;
+  --dur-slow: 420ms;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 18% 8%, rgba(94, 234, 212, 0.05), transparent 45%),
+    radial-gradient(circle at 85% 92%, rgba(129, 140, 248, 0.05), transparent 45%);
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+p { margin: 0; }
+
+button {
+  font-family: var(--font-body);
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible,
+input:focus-visible,
+[contenteditable]:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+input {
+  font-family: var(--font-body);
+  background: none;
+  border: none;
+  color: var(--text-primary);
+}
+input::placeholder { color: var(--text-faint); }
+
+svg { display: block; flex-shrink: 0; }
+
+::selection { background: var(--accent-soft); color: var(--text-primary); }
+
+/* Thin scrollbars for the instrument-panel feel */
+* { scrollbar-width: thin; scrollbar-color: var(--border-glass-strong) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--border-glass-strong);
+  border-radius: var(--radius-pill);
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(148, 178, 196, 0.35); }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* =========================================================
+   GLASS UTILITY
+   ========================================================= */
+.glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--border-glass);
+}
+
+/* Faint top "trace" hairline signature, used on floating glass panels */
+.glass::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 12%;
+  width: 76%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(94, 234, 212, 0.45), transparent);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
